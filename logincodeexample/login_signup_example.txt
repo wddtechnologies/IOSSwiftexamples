@@ -1,0 +1,99 @@
+example :  for a login page with sign up view and home view 
+
+HomeVC.swift 
+
+to check for existing login, if no session is found then show the login 
+
+override func viewDidAppear (animated : Bool)
+{
+super.viewDidAppear(true)
+
+	let prefs: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+	let isLoggedIn:: Int = prefs.integerForKey("ISLOGGEDIN") as Int
+	if( isLoggedIn !=1)
+	{
+	self.performWithIdntifier("goto_login" , sender : self)}
+	else { self.usernameLabel.text = prefs.valueForKey("USERNAME"} as NSString
+	}
+}
+
+signupTapped in SignupVc.swift
+@IBAction func signupTapped(sender  : UIButton){
+			var username:NSString = txtusername.text as NSString
+			var password:NSString = txtpassword.text as NSString
+			var confirm_password:NSString = txtConfirmPassword.text as NSString
+			
+			if(username.isEqualToString("") || password.isEqualToString("")){
+					var alertView: UIAlertView = UIAlertView()
+					
+					alertView.title = "Sign up Failed!"
+					alertView.message = "Please enter username and Password"
+					alertView.delegate = self
+					alertView.addButtonWithTitle("OK")
+					alertView.show()
+			
+				}else if ( !password.isEqual(confirm_password)){
+					var alertView: UIAlertView = UIAlertView()
+					
+					alertView.title = "Sign up Failed!"
+					alertView.message = "Passwords do not Match"
+					alertView.delegate = self
+					alertView.addButtonWithTitle("OK")
+					alertView.show()
+				
+				}else {
+					var post:NSString = "username=\(username)&password=\(password)&c_password=\(confirm_password)"
+					
+				NSLog ("PostData: %@" , post);
+				var url:NSURL = NSURL (string: " https://domainname.com/jsondignup.php")!
+				var postData: NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
+				var postLength:NSString = String (postData.length)
+				
+				var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+				request.HTTPMethod = "POST"
+				request.HTTPBody = postData
+				request.setValue(postLength, forHTTPHeaderField: " Content-Length")
+				request.setValue("application/x-www=form-urlencoded", forHTTPHeaderField: "Content-Type")
+				request.setValue("application/json", forHTTPHeaderField: "Accept")
+				
+				var reponseError : NSError?
+				var reponse : NSURLReponse?
+				
+				var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponce:&reponse, error:&responseError)
+				
+					if( urlData != nil){
+						let res = reponseas NSHTTPURLResponse!;
+						
+						NSLog("Reponse code: %ld", res.statusCode);
+						
+						if(res.statusCode >= 200 && res.statusCode < 300)
+						{
+								var responseData.NSString = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
+								NSLog("Response ==> %@", responseData);
+								
+								var error : NSError?
+								let jsonData: NSDictionary = NSJSONSerialization.JSONObjectWithData(urlDat!, options:NSJSONReadingOptiond.MutableContainers , error: &error)as NSDictionary
+						
+						}
+						
+							}
+				
+				
+				}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			}
