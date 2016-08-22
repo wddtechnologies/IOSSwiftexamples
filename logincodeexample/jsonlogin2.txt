@@ -1,8 +1,8 @@
-<?php
-/* --------------------------- */
-/*  Author : Dipin Krishna     */
-/*  Website: dipinkrishna.com  */
-/* --------------------------- */
+/*----------------------*/
+/* Author: Louise Rennick */
+/* Website: DomainName.com */
+/*example coding for class app Iphone with PHP for login page*/
+/*-------------------------*/
 
 header('Content-type: application/json');
 if($_POST) {
